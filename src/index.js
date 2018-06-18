@@ -1,6 +1,5 @@
 import { Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { Provider } from 'react-redux';
 
 import { registerScreens } from './screens';
 import { NAVIGATION } from './constants';
@@ -26,7 +25,7 @@ import store from './state';
 // }
 
 export const start = () => {
-  registerScreens(store, Provider);
+  registerScreens(store);
   Navigation.events().registerAppLaunchedListener(() => {
     // Navigation.setDefaultOptions({
     //   _animations: {
