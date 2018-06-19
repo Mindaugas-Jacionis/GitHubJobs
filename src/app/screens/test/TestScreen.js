@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
-import jobs from '../../jobs';
 import TestComponent from './TestComponent';
+import jobs from '../../../jobs';
 
 // NOTE: screens can only be class that extend Component or PureComponent
 // class TestScreen extends React.Component {

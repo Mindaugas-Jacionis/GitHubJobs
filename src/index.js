@@ -1,9 +1,9 @@
 import { Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import { registerScreens } from './screens';
 import { NAVIGATION } from './constants';
-import store from './state';
+import { registerScreens } from './app/screens';
+import store from './app/state';
 
 
 // if (Platform.OS === 'android') {
