@@ -8,10 +8,10 @@ import TestComponent from './TestComponent';
 import jobs from '../../../jobs';
 
 // NOTE: screens can only be class that extend Component or PureComponent
-// class TestScreen extends React.Component {
 class TestScreen extends React.PureComponent {
   onPress = () => {
     this.props.sampleAction();
+    this.props.fetchJobs();
   }
 
   render() {
@@ -39,6 +39,8 @@ const styles = StyleSheet.create({
 
 TestScreen.propTypes = {
   jobsList: PropTypes.array,
+  sampleAction: PropTypes.func.isRequired,
+  fetchJobs: PropTypes.func.isRequired
 };
 
 TestScreen.defaultProps = {
@@ -51,6 +53,7 @@ const enhance = connect(
   }),
   dispatch => ({
     sampleAction: bindActionCreators(jobs.actions.sampleAction, dispatch),
+    fetchJobs: bindActionCreators(jobs.actions.fetchJobs, dispatch),
   }),
   null,
   {"withRef" : true}
