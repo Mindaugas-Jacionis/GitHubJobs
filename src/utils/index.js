@@ -1,3 +1,4 @@
 import { invoke } from './api';
+import connect from './connect'
 
-module.exports = { invoke };
+module.exports = { invoke, connect };

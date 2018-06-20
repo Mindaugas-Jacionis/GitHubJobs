@@ -1,26 +1,34 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import { Navigation } from 'react-native-navigation';
 
 import TestComponent from './TestComponent';
+import { NAVIGATION } from '../../../constants';
 import jobs from '../../../jobs';
+import { connect } from '../../../utils';
 
 // NOTE: screens can only be class that extend Component or PureComponent
 class TestScreen extends React.PureComponent {
+  componentDidMount() {
+    console.log('Mounted', this.props.jobs);
+  }
+
   onPress = () => {
     this.props.sampleAction();
-    this.props.fetchJobs();
+    Navigation.push(this.props.componentId, {
+      component: { name: `${NAVIGATION}.Search` }
+    });
   }
 
   render() {
-    const { jobsList } = this.props;
+    const { data } = this.props;
 
     return (
       <View style={styles.container}>
         <TestComponent />
-        <Text>{`Hello World! ${JSON.stringify(jobsList)}`}</Text>
+        <Text>{`Hello World! ${JSON.stringify(data)}`}</Text>
         <TouchableOpacity onPress={this.onPress}>
           <Text>Click Me!</Text>
         </TouchableOpacity>
@@ -38,25 +46,22 @@ const styles = StyleSheet.create({
 });
 
 TestScreen.propTypes = {
-  jobsList: PropTypes.array,
+  data: PropTypes.array,
   sampleAction: PropTypes.func.isRequired,
-  fetchJobs: PropTypes.func.isRequired
 };
 
 TestScreen.defaultProps = {
-  jobsList: [],
+  data: [],
 };
 
 const enhance = connect(
   state => ({
-    jobsList: jobs.selectors.getJobs(state),
+    data: jobs.selectors.getData(state),
+    jobs: jobs.selectors.getJobs(state),
   }),
   dispatch => ({
     sampleAction: bindActionCreators(jobs.actions.sampleAction, dispatch),
-    fetchJobs: bindActionCreators(jobs.actions.fetchJobs, dispatch),
   }),
-  null,
-  {"withRef" : true}
 );
 
 export default enhance(TestScreen);
