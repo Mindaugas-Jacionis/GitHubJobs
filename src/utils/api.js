@@ -15,9 +15,7 @@ export const invoke = (api, options = {}) => {
 
   let errorAction = reduxAction.types[2];
   errorAction =
-    typeof errorAction === 'string'
-      ? { type: errorAction }
-      : errorAction;
+    typeof errorAction === 'string' ? { type: errorAction } : errorAction;
 
   if (typeof errorAction.payload === 'undefined') {
     const errorHandler =

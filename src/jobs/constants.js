@@ -1,3 +1,3 @@
-import { PROJECT_NAME } from '../constants';
+import { PROJECT_NAME } from '~/constants';
 
 export const NAME = `${PROJECT_NAME}.jobs`;

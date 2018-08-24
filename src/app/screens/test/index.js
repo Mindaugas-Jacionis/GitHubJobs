@@ -1,5 +1,3 @@
 import TestScreen from './TestScreen';
 
-module.exports = {
-  TestScreen
-};
+export { TestScreen };

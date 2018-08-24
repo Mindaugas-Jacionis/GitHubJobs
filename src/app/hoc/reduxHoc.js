@@ -1,57 +1,56 @@
 import React from 'react';
-import { Linking, SafeAreaView, StyleSheet } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 
-export function reduxHoc(
-  name,
-  RenderComponent,
-  store,
-) {
-  const generatorWrapper = function() {
+function registerContainer(name, generator) {
+  Navigation.registerComponent(name, generator);
+}
+
+export function reduxHoc(name, RenderComponent, store) {
+  function generatorWrapper() {
     return class Scene extends React.Component {
       constructor(props) {
         super(props);
-      }
-      render() {
-        return (
-          <Provider store={store}>
-            <RenderComponent
-              ref="child"
-              {...this.props}
-            />
-          </Provider>
-        );
+        this.child = undefined;
       }
 
+      onNavigationButtonPressed(id) {
+        const instance = this.child.getWrappedInstance();
+        if (instance && instance.onNavigationButtonPressed) {
+          instance.onNavigationButtonPressed(id);
+        }
+      }
+
+      assignRef = component => {
+        this.child = component;
+        return this.child;
+      };
+
       didAppear(id) {
-        instance = this.refs.child.getWrappedInstance();
+        const instance = this.child.getWrappedInstance();
         if (instance && instance.didAppear) {
           instance.didAppear(id);
         }
       }
 
       didDisappear(id) {
-        instance = this.refs.child.getWrappedInstance();
+        const instance = this.child.getWrappedInstance();
         if (instance && instance.didDisappear) {
           instance.didDisappear(id);
         }
       }
 
-      onNavigationButtonPressed(id) {
-        instance = this.refs.child.getWrappedInstance();
-        if (instance && instance.onNavigationButtonPressed) {
-          instance.onNavigationButtonPressed(id);
-        }
+      render() {
+        return (
+          <Provider store={store}>
+            <RenderComponent ref={this.assignRef} {...this.props} />
+          </Provider>
+        );
       }
     };
-  };
+  }
 
   registerContainer(name, generatorWrapper);
-}
-
-function registerContainer(name, generator) {
-  Navigation.registerComponent(name, generator);
 }
 
 export default reduxHoc;

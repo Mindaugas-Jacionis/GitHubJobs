@@ -1,10 +1,8 @@
-import { Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import { NAVIGATION } from './constants';
 import { registerScreens } from './app/screens';
 import store from './app/state';
-
 
 // if (Platform.OS === 'android') {
 //   alert = (title) => {
@@ -145,12 +143,12 @@ export const start = () => {
           children: [
             {
               component: {
-                name: `${NAVIGATION}.TestScreen`
-              }
-            }
-          ]
-        }
-      }
+                name: `${NAVIGATION}.TestScreen`,
+              },
+            },
+          ],
+        },
+      },
     });
   });
-}
+};
